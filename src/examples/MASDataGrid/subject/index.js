@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, IconButton, Menu, Select } from '@mui/material'
+import { Button, IconButton, Menu } from '@mui/material'
 import { subjectApi } from 'apis/subjectApis'
 import EditSubjectModal from 'components/EditSubjectModal'
 import SuiInput from 'components/SuiInput/index.js'
@@ -9,7 +9,6 @@ import SuiBox from 'components/SuiBox/index.js'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 import MenuItem from '@mui/material/MenuItem'
-import SuiTypography from 'components/SuiTypography'
 import { majorApi } from 'apis/majorApis'
 import SuiButton from 'components/SuiButton'
 
@@ -45,6 +44,12 @@ const SubjectDataGrid = () => {
     }
     const handleCreateSubjectClick = (subject) => {
         setEditingSubject(null)
+        setIsOpenEditModal(true)
+    }
+
+    const handleOnCellClick = (params) => {
+        const major = params.row
+        setEditingSubject(major)
         setIsOpenEditModal(true)
     }
 
@@ -255,6 +260,9 @@ const SubjectDataGrid = () => {
                     rowsPerPageOptions={[10]}
                     components={{
                         Toolbar: GridToolbar,
+                    }}
+                    onCellClick={(params) => {
+                        handleOnCellClick(params)
                     }}
                 />
                 <EditSubjectModal

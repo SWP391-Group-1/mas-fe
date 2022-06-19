@@ -8,7 +8,6 @@ const logout = () => {
     localStorage.removeItem('access-token')
 }
 
-
 export const authApis = {
     loginAdmin,
     logout,

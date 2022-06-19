@@ -22,6 +22,12 @@ const MajorDataGrid = () => {
         setIsOpenEditModal(true)
     }
 
+    const handleOnCellClick = (params) => {
+        const major = params.row
+        setEditingMajor(major)
+        setIsOpenEditModal(true)
+    }
+
     const handleSubmitMajor = (major, isCreateMode) => {
         // TODO: Validate data
         if (isCreateMode) {
@@ -51,7 +57,6 @@ const MajorDataGrid = () => {
             setMajors(res.data.content)
         })
     }
-
 
     const handleDelete = (id) => {
         console.log(id)
@@ -172,6 +177,9 @@ const MajorDataGrid = () => {
                     rowsPerPageOptions={[10]}
                     components={{
                         Toolbar: GridToolbar,
+                    }}
+                    onCellClick={(params) => {
+                        handleOnCellClick(params)
                     }}
                 />
                 <EditMajorModal

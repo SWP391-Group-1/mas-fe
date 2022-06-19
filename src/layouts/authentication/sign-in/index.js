@@ -17,7 +17,7 @@ import CoverLayout from 'layouts/authentication/components/CoverLayout'
 
 // Images
 import curved9 from 'assets/images/curved-images/curved-6.jpg'
-import Login from 'examples/LoginGoogleButton'
+import LoginWithGoogle from 'examples/LoginGoogleButton'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -152,28 +152,6 @@ function SignIn() {
                     >
                         sign in
                     </SuiButton>
-                </SuiBox>
-                <SuiBox mt={4} mb={1}>
-                    <Login />
-                </SuiBox>
-                <SuiBox mt={3} textAlign="center">
-                    <SuiTypography
-                        variant="button"
-                        color="text"
-                        fontWeight="regular"
-                    >
-                        Don&apos;t have an account?{' '}
-                        <SuiTypography
-                            component={Link}
-                            to="/authentication/sign-up"
-                            variant="button"
-                            color="info"
-                            fontWeight="medium"
-                            textGradient
-                        >
-                            Sign up
-                        </SuiTypography>
-                    </SuiTypography>
                 </SuiBox>
             </SuiBox>
         </CoverLayout>
