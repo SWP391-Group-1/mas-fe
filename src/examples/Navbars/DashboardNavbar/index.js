@@ -1,28 +1,21 @@
 import { useState, useEffect } from 'react'
 
-// react-router components
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-// prop-types is a library for typechecking of props.
 import PropTypes from 'prop-types'
 
-// @material-ui core components
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import Icon from '@mui/material/Icon'
+import { authApis } from 'apis/authApis'
 
-// Soft UI Dashboard React components
 import SuiBox from 'components/SuiBox'
-import SuiTypography from 'components/SuiTypography'
-import SuiInput from 'components/SuiInput'
 
-// Soft UI Dashboard React examples
 import Breadcrumbs from 'examples/Breadcrumbs'
 import NotificationItem from 'examples/Items/NotificationItem'
 
-// Custom styles for DashboardNavbar
 import {
     navbar,
     navbarContainer,
@@ -50,6 +43,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
         controller
     const [openMenu, setOpenMenu] = useState(false)
     const route = useLocation().pathname.split('/').slice(1)
+    const navigate = useNavigate()
 
     useEffect(() => {
         // Setting the navbar type
@@ -67,16 +61,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
             )
         }
 
-        /** 
-     The event listener that's calling the handleTransparentNavbar function when 
-     scrolling the window.
-    */
         window.addEventListener('scroll', handleTransparentNavbar)
 
-        // Call the handleTransparentNavbar function to set the state with the initial value.
         handleTransparentNavbar()
 
-        // Remove event listener on cleanup
         return () =>
             window.removeEventListener('scroll', handleTransparentNavbar)
     }, [dispatch, fixedNavbar])
@@ -85,6 +73,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
     const handleConfiguratorOpen = () =>
         setOpenConfigurator(dispatch, !openConfigurator)
     const handleOpenMenu = (event) => setOpenMenu(event.currentTarget)
+    const logOut = () => {
+        navigate('/authentication/sign-in')
+        authApis.logout()
+    }
     const handleCloseMenu = () => setOpenMenu(false)
 
     // Render the notifications menu
@@ -199,6 +191,20 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                     }
                                 >
                                     notifications
+                                </Icon>
+                            </IconButton>
+                            <IconButton 
+                                size="small"
+                                color="inherit"
+                                onClick={logOut}
+
+                            >
+                                <Icon
+                                    className={
+                                        light ? 'text-white' : 'text-dark'
+                                    }
+                                >
+                                    logout
                                 </Icon>
                             </IconButton>
                             {renderMenu()}
