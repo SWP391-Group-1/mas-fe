@@ -42,6 +42,7 @@ const MajorDataGrid = () => {
             })
         }
         setIsOpenEditModal(false)
+        
     }
 
     const handleCancelUpdateMajor = (major) => {

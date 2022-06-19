@@ -164,14 +164,6 @@ const SubjectDataGrid = () => {
 
     return (
         <>
-            {/* <SuiBox
-                mb={2}
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItem: 'center',
-                }}
-            > */}
             <SuiBox mb={2} sx={{ display: 'flex', width: '30%' }}>
                 <SuiInput
                     id="searchTextField"
