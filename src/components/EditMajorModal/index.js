@@ -43,7 +43,6 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                                     component="label"
                                     variant="caption"
                                     fontWeight="bold"
-                                    isRequired
                                 >
                                     Code
                                 </SuiTypography>
@@ -52,6 +51,7 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                                 autoFocus
                                 id="codeTextField"
                                 type="text"
+                                required={true}
                                 value={newMajor?.code}
                                 inputProps={{ maxLength: 5 }}
                                 onChange={(e) =>
@@ -65,7 +65,6 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                             component="label"
                             variant="caption"
                             fontWeight="bold"
-                            isRequired
                         >
                             Title
                         </SuiTypography>
@@ -75,6 +74,7 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                         label="Title"
                         type="text"
                         value={newMajor?.title}
+                        required={true}
                         inputProps={{ maxLength: 100 }}
                         onChange={(e) =>
                             patchMajor({ title: e?.target?.value ?? '' })
@@ -86,7 +86,6 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                             component="label"
                             variant="caption"
                             fontWeight="bold"
-                            isRequired
                         >
                             Description
                         </SuiTypography>
@@ -96,6 +95,7 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                         type="text"
                         value={newMajor?.description}
                         inputProps={{ maxLength: 100 }}
+                        required={true}
                         onChange={(e) =>
                             patchMajor({ description: e?.target?.value ?? '' })
                         }
