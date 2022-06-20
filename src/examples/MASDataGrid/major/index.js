@@ -135,7 +135,7 @@ const MajorDataGrid = () => {
                 <SuiBox sx={{ float: 'right' }} mr={1} mt={1}>
                     <Button
                         variant="contained"
-                        color="error"
+                        color="dark"
                         size="small"
                         onClick={handleCreateMajorClick}
                     >

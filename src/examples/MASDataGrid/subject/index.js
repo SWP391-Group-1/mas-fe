@@ -30,7 +30,6 @@ const SubjectDataGrid = () => {
                 alert('The subject has been created!') // TODO
             })
         } else {
-            console.log(subject)
             subjectApi.updateSubject(subject.id, subject)?.then((res) => {
                 fetchData(search, major.id)
                 alert('The subject has been updated!') // TODO
@@ -69,7 +68,6 @@ const SubjectDataGrid = () => {
     const getMajorCombobox = () => {
         majorApi.getAllMajor('').then((res) => {
             setMajors(res.data.content)
-            console.log(res.data.content)
         })
     }
 
