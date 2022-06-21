@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import MenuItem from '@mui/material/MenuItem'
 import { majorApi } from 'apis/majorApis'
 import SuiButton from 'components/SuiButton'
+import ConfirmDeleteDialog from 'components/ConfirmDeleteDialog'
 
 const SubjectDataGrid = () => {
     const [subjects, setSubjects] = useState([])
@@ -21,21 +22,11 @@ const SubjectDataGrid = () => {
     const [major, setMajor] = useState({ code: 'Select Major' })
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false)
 
-    const handleSubmitSubject = (subject, isCreateMode) => {
-        // TODO: Validate data
-        if (isCreateMode) {
-            subjectApi.createSubject(subject)?.then((res) => {
-                fetchData(search, major.id)
-                alert('The subject has been created!') // TODO
-            })
-        } else {
-            subjectApi.updateSubject(subject.id, subject)?.then((res) => {
-                fetchData(search, major.id)
-                alert('The subject has been updated!') // TODO
-            })
-        }
+    const handleSubmitSubject = () => {
         setIsOpenEditModal(false)
+        fetchData(search, major.id)
     }
     const handleUpdateSubjectClick = (subject) => {
         setEditingSubject(subject)
@@ -46,16 +37,18 @@ const SubjectDataGrid = () => {
         setIsOpenEditModal(true)
     }
 
-    const handleOnCellClick = (params) => {
-        const major = params.row
-        setEditingSubject(major)
-        setIsOpenEditModal(true)
-    }
-
     const handleDelete = (id) => {
-        subjectApi.deleteSubject(id).then((res) => {
-            fetchData(search, major.id)
-        })
+        subjectApi
+            .deleteSubject(id)
+            .then((res) => {
+                setIsOpenConfirm(false)
+                alert('The major has been deleted')
+                fetchData(search, major.id)
+            })
+            .catch((err) => {
+                console.log(err)
+                alert(err)
+            })
     }
 
     const fetchData = (data, dataId) => {
@@ -69,6 +62,15 @@ const SubjectDataGrid = () => {
         majorApi.getAllMajor('').then((res) => {
             setMajors(res.data.content)
         })
+    }
+
+    const handleConfirmDeleteDialog = () => {
+        setIsOpenConfirm(false)
+        fetchData(search, major.id)
+    }
+
+    const handleCancelConfirmDialog = () => {
+        setIsOpenConfirm(false)
     }
 
     useEffect(() => {
@@ -92,7 +94,7 @@ const SubjectDataGrid = () => {
     }
 
     const renderDeleteButton = (params) => {
-        const major = params.row
+        const subject = params.row
 
         return (
             <strong>
@@ -101,7 +103,8 @@ const SubjectDataGrid = () => {
                     color="error"
                     size="small"
                     onClick={() => {
-                        handleDelete(major?.id)
+                        setEditingSubject(subject)
+                        setIsOpenConfirm(true)
                     }}
                 >
                     Delete
@@ -251,15 +254,18 @@ const SubjectDataGrid = () => {
                     components={{
                         Toolbar: GridToolbar,
                     }}
-                    onCellClick={(params) => {
-                        handleOnCellClick(params)
-                    }}
                 />
                 <EditSubjectModal
                     subject={editingSubject}
                     isOpen={isOpenEditModal}
                     onSubmit={handleSubmitSubject}
                     onCancel={handleCancelUpdateSubject}
+                />
+                <ConfirmDeleteDialog
+                    title="Are you sure you want to delete this subject?"
+                    isOpen={isOpenConfirm}
+                    onCancel={handleCancelConfirmDialog}
+                    onDelete={handleDelete}
                 />
             </div>
         </>

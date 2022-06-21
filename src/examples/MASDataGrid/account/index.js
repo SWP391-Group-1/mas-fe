@@ -23,7 +23,7 @@ const AccountDataGrid = () => {
                     variant="contained"
                     color="error"
                     size="small"
-                    onClick={() => handleUpdateAccountClick(account)}
+                    onClick={() => handleViewAccountClick(account)}
                 >
                     View Detail
                 </Button>
@@ -31,7 +31,7 @@ const AccountDataGrid = () => {
         )
     }
 
-    const handleUpdateAccountClick = (account) => {
+    const handleViewAccountClick = (account) => {
         console.log('Open cho tao')
         setEditingAccount(account)
         setIsOpenDetail(true)
@@ -47,15 +47,17 @@ const AccountDataGrid = () => {
         setIsOpenDetail(false)
     }
 
+    const handleSubmitAccount = () => {
+        setIsOpenDetail(false)
+        alert('The account has been updated!') 
+        fetchData()
+    }
+
     const fetchData = () => {
         UserApi.getAllUser(search).then((res) => {
             setAccounts(res.data.content)
         })
     }
-
-    // const deleteAccount = () => {
-    //     setIsChange()
-    // }
 
     useEffect(() => {
         fetchData()
@@ -128,7 +130,7 @@ const AccountDataGrid = () => {
                 <ViewAccountDetail
                     account={editingAccount}
                     isOpen={isOpenDetail}
-                    onSubmit={handleUpdateAccountClick}
+                    onSubmit={handleSubmitAccount}
                     onCancel={handleCancelUpdateAccount}
                 />
             </div>

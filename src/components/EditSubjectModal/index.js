@@ -21,6 +21,8 @@ export default function EditSubjectModal({
     onCancel,
 }) {
     const [newSubject, setNewSubject, patchSubject] = usePatch()
+    const [isError, setIsError] = useState(false)
+    const [duplicateError, setDuplicateError] = useState(null)
     const isCreateMode = React.useMemo(() => !subject, [subject])
     const [majors, setMajors] = useState([])
     const [major, setMajor] = useState(null)
@@ -33,11 +35,47 @@ export default function EditSubjectModal({
     }, [subject, isOpen])
 
     const handleUpdateClick = () => {
-        console.log(newSubject)
-        onSubmit?.(newSubject, isCreateMode)
+        if (
+            newSubject?.code == null ||
+            newSubject?.code == '' ||
+            newSubject?.title == null ||
+            newSubject?.title == '' ||
+            newSubject?.description == null ||
+            newSubject?.description == ''
+        ) {
+            setIsError(true)
+        } else {
+            setIsError(false)
+            if (isCreateMode) {
+                subjectApi
+                    .createSubject(newSubject)
+                    ?.then((res) => {
+                        alert('The subject has been created!')
+                        onsubmit?.() // TODO
+                    })
+                    .catch((error) => {
+                        setDuplicateError(error)
+                    })
+            } else {
+                subjectApi
+                    .updateSubject(newSubject.id, newSubject)
+                    ?.then((res) => {
+                        alert('The subject has been updated!')
+                        onsubmit?.() // TODO
+                    })
+                    .catch((error) => {
+                        setDuplicateError(error)
+                    })
+            }
+        }
     }
 
+    // const handleCancelClick = () => {
+    //     onCancel?.()
+    // }
     const handleCancelClick = () => {
+        setIsError(false)
+        setDuplicateError(null)
         onCancel?.()
     }
 
@@ -93,6 +131,20 @@ export default function EditSubjectModal({
                                     })
                                 }
                             />
+                            <SuiBox>
+                                <SuiTypography
+                                    component="label"
+                                    variant="caption"
+                                    fontWeight="bold"
+                                    color="error"
+                                >
+                                    {isError == true &&
+                                    (newSubject?.code == '' ||
+                                        newSubject?.code == null)
+                                        ? 'Code is required!'
+                                        : null}
+                                </SuiTypography>
+                            </SuiBox>
                         </>
                     )}
                     <SuiBox>
@@ -119,6 +171,20 @@ export default function EditSubjectModal({
                             component="label"
                             variant="caption"
                             fontWeight="bold"
+                            color="error"
+                        >
+                            {isError == true &&
+                            (newSubject?.title == '' ||
+                                newSubject?.title == null)
+                                ? 'Title is required!'
+                                : null}
+                        </SuiTypography>
+                    </SuiBox>
+                    <SuiBox>
+                        <SuiTypography
+                            component="label"
+                            variant="caption"
+                            fontWeight="bold"
                             isRequired
                         >
                             Description
@@ -135,6 +201,20 @@ export default function EditSubjectModal({
                             })
                         }
                     />
+                    <SuiBox>
+                        <SuiTypography
+                            component="label"
+                            variant="caption"
+                            fontWeight="bold"
+                            color="error"
+                        >
+                            {isError == true &&
+                            (newSubject?.description == '' ||
+                                newSubject?.description == null)
+                                ? 'Description is required!'
+                                : null}
+                        </SuiTypography>
+                    </SuiBox>
                     <SuiBox>
                         <SuiTypography
                             component="label"
@@ -168,6 +248,18 @@ export default function EditSubjectModal({
                             </Box>
                         )}
                     />
+                    <SuiBox>
+                        <SuiTypography
+                            component="label"
+                            variant="caption"
+                            fontWeight="bold"
+                            color="error"
+                        >
+                            {duplicateError != null
+                                ? 'This subject code or title already existed in the application'
+                                : null}
+                        </SuiTypography>
+                    </SuiBox>
                 </DialogContent>
                 <DialogActions>
                     {isCreateMode ? (

@@ -12,6 +12,11 @@ const getAccountById = (accountId) => {
     loadToken()
     return defaultInstance.get(`/users/${accountId}`)
 }
+
+const updateStatusById = (account, data) => {
+    loadToken()
+    return defaultInstance.put(`/users/active/${account.id}`, data)
+}
 export const UserApi = {
-    getAllUser, getAccountById
+    getAllUser, getAccountById, updateStatusById
 }
