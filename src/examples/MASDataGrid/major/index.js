@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { majorApi } from 'apis/majorApis'
-import { Button, IconButton } from '@mui/material'
+import { Button, Dialog, DialogTitle, IconButton } from '@mui/material'
 import EditMajorModal from 'components/EditMajorModal'
 import SuiInput from 'components/SuiInput/index.js'
 import SuiBox from 'components/SuiBox/index.js'
 import SearchIcon from '@mui/icons-material/Search'
+import SuiButton from 'components/SuiButton'
+import ConfirmDeleteDialog from 'components/ConfirmDeleteDialog'
 
 const MajorDataGrid = () => {
     const [majors, setMajors] = useState([])
     const [search, setSearch] = useState([])
     const [editingMajor, setEditingMajor] = useState(null)
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false)
     const [isOpenEditModal, setIsOpenEditModal] = useState(false)
 
     const handleUpdateMajorClick = (major) => {
@@ -22,27 +25,15 @@ const MajorDataGrid = () => {
         setIsOpenEditModal(true)
     }
 
-    const handleOnCellClick = (params) => {
-        const major = params.row
-        setEditingMajor(major)
-        setIsOpenEditModal(true)
-    }
+    // const handleOnCellClick = (params) => {
+    //     const major = params.row
+    //     setEditingMajor(major)
+    //     setIsOpenEditModal(true)
+    // }
 
-    const handleSubmitMajor = (major, isCreateMode) => {
-        // TODO: Validate data
-        if (isCreateMode) {
-            majorApi.createMajor(major)?.then((res) => {
-                fetchData()
-                alert('The major has been created!') // TODO
-            })
-        } else {
-            majorApi.updateMajor(major.id, major)?.then((res) => {
-                fetchData()
-                alert('The major has been updated!') // TODO
-            })
-        }
-        setIsOpenEditModal(false)
-        
+    const handleSubmitMajor = () => {
+        setIsOpenEditModal(false)  
+        fetchData(search)     
     }
 
     const handleCancelUpdateMajor = (major) => {
@@ -59,20 +50,28 @@ const MajorDataGrid = () => {
         })
     }
 
-    const handleDelete = (id) => {
-        console.log(id)
+    const handleDelete = () => {
+        console.log(editingMajor)
         majorApi
-            .deleteMajor(id)
+            .deleteMajor(editingMajor.id)
             .then((res) => {
-                fetchData()
+                setIsOpenConfirm(false)
+                alert('The major has been deleted')
+                fetchData(search)
             })
             .catch((err) => {
                 console.log(err)
+                alert(err)
             })
+
+    }
+
+    const handleCancelConfirmDialog = () => {
+        setIsOpenConfirm(false)
     }
 
     useEffect(() => {
-        fetchData()
+        fetchData(search)
     }, [])
 
     const renderEditButton = (params) => {
@@ -93,7 +92,6 @@ const MajorDataGrid = () => {
 
     const renderDeleteButton = (params) => {
         const major = params.row
-
         return (
             <strong>
                 <Button
@@ -101,7 +99,8 @@ const MajorDataGrid = () => {
                     color="error"
                     size="small"
                     onClick={() => {
-                        handleDelete(major?.id)
+                        setEditingMajor(major)
+                        setIsOpenConfirm(true)
                     }}
                 >
                     Delete
@@ -135,7 +134,7 @@ const MajorDataGrid = () => {
                 <SuiBox sx={{ float: 'right' }} mr={1} mt={1}>
                     <Button
                         variant="contained"
-                        color="error"
+                        color="dark"
                         size="small"
                         onClick={handleCreateMajorClick}
                     >
@@ -179,15 +178,21 @@ const MajorDataGrid = () => {
                     components={{
                         Toolbar: GridToolbar,
                     }}
-                    onCellClick={(params) => {
-                        handleOnCellClick(params)
-                    }}
+                    // onCellClick={(params) => {
+                    //     handleOnCellClick(params)
+                    // }}
                 />
                 <EditMajorModal
                     major={editingMajor}
                     isOpen={isOpenEditModal}
                     onSubmit={handleSubmitMajor}
                     onCancel={handleCancelUpdateMajor}
+                />
+                <ConfirmDeleteDialog
+                    title='Are you sure you want to delete this major?'
+                    isOpen={isOpenConfirm}
+                    onCancel={handleCancelConfirmDialog}
+                    onDelete={handleDelete}
                 />
             </div>
         </>

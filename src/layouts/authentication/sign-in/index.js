@@ -55,7 +55,11 @@ function SignIn() {
     return (
         <CoverLayout
             title="FPT MAS"
+<<<<<<< HEAD
             description="Admin edition"
+=======
+            description="Admin Edition"
+>>>>>>> aba5513f53fdde020097fdd35f78c499be9c78c7
             image={curved9}
         >
             <SuiBox component="form" role="form">
@@ -129,7 +133,7 @@ function SignIn() {
                         onChange={(e) => setPassword(e?.target?.value)}
                     />
                 </SuiBox>
-                <SuiBox display="flex" alignItems="center">
+                {/* <SuiBox display="flex" alignItems="center">
                     <Switch
                         checked={rememberMe}
                         onChange={handleSetRememberMe}
@@ -142,7 +146,7 @@ function SignIn() {
                     >
                         &nbsp;&nbsp;Remember me
                     </SuiTypography>
-                </SuiBox>
+                </SuiBox> */}
                 <SuiBox mt={4} mb={1}>
                     <SuiButton
                         variant="gradient"
