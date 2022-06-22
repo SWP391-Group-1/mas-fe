@@ -55,7 +55,7 @@ function SignIn() {
     return (
         <CoverLayout
             title="FPT MAS"
-            description="Enter your email and password to sign in"
+            description="Admin edition"
             image={curved9}
         >
             <SuiBox component="form" role="form">

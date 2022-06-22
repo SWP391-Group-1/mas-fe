@@ -144,15 +144,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 </SuiBox>
                 {isMini ? null : (
                     <SuiBox sx={(theme) => navbarRow(theme, { isMini })}>
-                        {/* <SuiBox pr={1}>
-                            <SuiInput
-                                placeholder="Type here..."
-                                icon={{
-                                    component: 'search',
-                                    direction: 'left',
-                                }}
-                            />
-                        </SuiBox> */}
                         <SuiBox color={light ? 'white' : 'inherit'}>
                             <IconButton
                                 size="small"
@@ -193,11 +184,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                     notifications
                                 </Icon>
                             </IconButton>
-                            <IconButton 
+                            <IconButton
                                 size="small"
                                 color="inherit"
                                 onClick={logOut}
-
                             >
                                 <Icon
                                     className={
