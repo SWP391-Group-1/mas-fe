@@ -55,11 +55,7 @@ function SignIn() {
     return (
         <CoverLayout
             title="FPT MAS"
-<<<<<<< HEAD
             description="Admin edition"
-=======
-            description="Admin Edition"
->>>>>>> aba5513f53fdde020097fdd35f78c499be9c78c7
             image={curved9}
         >
             <SuiBox component="form" role="form">

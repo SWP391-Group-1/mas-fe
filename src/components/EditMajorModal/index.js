@@ -10,12 +10,21 @@ import SuiBox from 'components/SuiBox/index.js'
 import SuiTypography from 'components/SuiTypography/index.js'
 import { Box } from '@mui/system'
 import { majorApi } from 'apis/majorApis.js'
+import { useSnackbar } from 'notistack'
 
 export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
     const [newMajor, setNewMajor, patchMajor] = usePatch()
     const [isError, setIsError] = useState(false)
     const [duplicateError, setDuplicateError] = useState(null)
     const isCreateMode = React.useMemo(() => !major, [major])
+    const { enqueueSnackbar } = useSnackbar()
+
+    const handleClickVariant = (title, varientType) => {
+        // variant could be success, error, warning, info, or default
+        enqueueSnackbar(title, {
+            variant: varientType,
+        })
+    }
 
     React.useEffect(() => {
         if (isOpen) setNewMajor(major)
@@ -37,7 +46,7 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                 majorApi
                     .createMajor(newMajor)
                     ?.then((res) => {
-                        alert('The major has been created!')
+                        handleClickVariant("Create major successfully!", "success")
                         onSubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -47,7 +56,8 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                 majorApi
                     .updateMajor(newMajor.id, newMajor)
                     ?.then((res) => {
-                        alert('The major has been updated!')
+                        //alert('The major has been updated!')
+                        handleClickVariant("Update major successfully!", "success")
                         onSubmit?.() // TODO
                     })
                     .catch((error) => {

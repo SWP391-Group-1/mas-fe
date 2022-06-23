@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { majorApi } from 'apis/majorApis'
-import { Button, Dialog, DialogTitle, IconButton } from '@mui/material'
+import { Alert, Button, Dialog, DialogTitle, IconButton } from '@mui/material'
 import EditMajorModal from 'components/EditMajorModal'
 import SuiInput from 'components/SuiInput/index.js'
 import SuiBox from 'components/SuiBox/index.js'
 import SearchIcon from '@mui/icons-material/Search'
 import SuiButton from 'components/SuiButton'
 import ConfirmDeleteDialog from 'components/ConfirmDeleteDialog'
+import { SnackbarProvider, useSnackbar } from 'notistack'
 
 const MajorDataGrid = () => {
     const [majors, setMajors] = useState([])
@@ -15,6 +16,7 @@ const MajorDataGrid = () => {
     const [editingMajor, setEditingMajor] = useState(null)
     const [isOpenConfirm, setIsOpenConfirm] = useState(false)
     const [isOpenEditModal, setIsOpenEditModal] = useState(false)
+    const { enqueueSnackbar, } = useSnackbar()
 
     const handleUpdateMajorClick = (major) => {
         setEditingMajor(major)
@@ -25,19 +27,19 @@ const MajorDataGrid = () => {
         setIsOpenEditModal(true)
     }
 
-    // const handleOnCellClick = (params) => {
-    //     const major = params.row
-    //     setEditingMajor(major)
-    //     setIsOpenEditModal(true)
-    // }
+    const handleClickVariant = (title, varientType) => {
+        // variant could be success, error, warning, info, or default
+        enqueueSnackbar(title, {
+            variant: varientType,
+        })
+    }
 
     const handleSubmitMajor = () => {
-        setIsOpenEditModal(false)  
-        fetchData(search)     
+        setIsOpenEditModal(false)
+        fetchData(search)
     }
 
     const handleCancelUpdateMajor = (major) => {
-        // TODO: Are you sure meow moew
         setIsOpenEditModal(false)
     }
 
@@ -56,14 +58,14 @@ const MajorDataGrid = () => {
             .deleteMajor(editingMajor.id)
             .then((res) => {
                 setIsOpenConfirm(false)
-                alert('The major has been deleted')
+                handleClickVariant("Delete major successfully!", "success")
                 fetchData(search)
             })
             .catch((err) => {
                 console.log(err)
-                alert(err)
+                //alert(err)
+                handleClickVariant(err, "error")
             })
-
     }
 
     const handleCancelConfirmDialog = () => {
@@ -147,54 +149,56 @@ const MajorDataGrid = () => {
 
     return (
         <>
-            <SuiBox mb={2} sx={{ display: 'flex', width: '30%' }}>
-                <SuiInput
-                    id="searchTextField"
-                    type="text"
-                    value={search}
-                    inputProps={{ maxLength: 100 }}
-                    placeholder="Search here..."
-                    sx={{ width: '150px' }}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+            <SnackbarProvider>
+                <SuiBox mb={2} sx={{ display: 'flex', width: '30%' }}>
+                    <SuiInput
+                        id="searchTextField"
+                        type="text"
+                        value={search}
+                        inputProps={{ maxLength: 100 }}
+                        placeholder="Search here..."
+                        sx={{ width: '150px' }}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
 
-                <IconButton
-                    color="dark"
-                    component="span"
-                    onClick={() => fetchData(search, 1)}
-                >
-                    <SearchIcon />
-                </IconButton>
-            </SuiBox>
+                    <IconButton
+                        color="dark"
+                        component="span"
+                        onClick={() => fetchData(search, 1)}
+                    >
+                        <SearchIcon />
+                    </IconButton>
+                </SuiBox>
 
-            <div style={{ height: 750, width: '100%' }}>
-                <DataGrid
-                    rowHeight={60}
-                    rows={majors}
-                    columns={columns}
-                    pageSize={10}
-                    disableSelectionOnClick
-                    rowsPerPageOptions={[10]}
-                    components={{
-                        Toolbar: GridToolbar,
-                    }}
-                    // onCellClick={(params) => {
-                    //     handleOnCellClick(params)
-                    // }}
-                />
-                <EditMajorModal
-                    major={editingMajor}
-                    isOpen={isOpenEditModal}
-                    onSubmit={handleSubmitMajor}
-                    onCancel={handleCancelUpdateMajor}
-                />
-                <ConfirmDeleteDialog
-                    title='Are you sure you want to delete this major?'
-                    isOpen={isOpenConfirm}
-                    onCancel={handleCancelConfirmDialog}
-                    onDelete={handleDelete}
-                />
-            </div>
+                <div style={{ height: 750, width: '100%' }}>
+                    <DataGrid
+                        rowHeight={60}
+                        rows={majors}
+                        columns={columns}
+                        pageSize={10}
+                        disableSelectionOnClick
+                        rowsPerPageOptions={[10]}
+                        components={{
+                            Toolbar: GridToolbar,
+                        }}
+                        // onCellClick={(params) => {
+                        //     handleOnCellClick(params)
+                        // }}
+                    />
+                    <EditMajorModal
+                        major={editingMajor}
+                        isOpen={isOpenEditModal}
+                        onSubmit={handleSubmitMajor}
+                        onCancel={handleCancelUpdateMajor}
+                    />
+                    <ConfirmDeleteDialog
+                        title="Are you sure you want to delete this major?"
+                        isOpen={isOpenConfirm}
+                        onCancel={handleCancelConfirmDialog}
+                        onDelete={handleDelete}
+                    />
+                </div>
+            </SnackbarProvider>
         </>
     )
 }

@@ -114,7 +114,7 @@ const AccountDataGrid = () => {
                 </IconButton>
             </SuiBox>
 
-            <div style={{ height: 450, width: '100%' }}>
+            <div style={{ height: 750, width: '100%' }}>
                 <DataGrid
                     rowHeight={80}
                     rows={accounts}

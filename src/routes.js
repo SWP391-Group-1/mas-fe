@@ -52,15 +52,15 @@ const routes = [
         component: <Subject />,
         noCollapse: true,
     },
-    {
-        type: 'collapse',
-        name: 'Register',
-        key: 'register',
-        route: '/tables',
-        icon: <Cube size="12px" />,
-        component: <Tables />,
-        noCollapse: true,
-    },
+    // {
+    //     type: 'collapse',
+    //     name: 'Register',
+    //     key: 'register',
+    //     route: '/tables',
+    //     icon: <Cube size="12px" />,
+    //     component: <Tables />,
+    //     noCollapse: true,
+    // },
     { type: 'title', title: 'Account Pages', key: 'account-pages' },
     {
         type: 'collapse',
@@ -71,15 +71,15 @@ const routes = [
         component: <Profile />,
         noCollapse: true,
     },
-    {
-        type: 'collapse',
-        name: 'Sign In',
-        key: 'sign-in',
-        route: '/authentication/sign-in',
-        icon: <Document size="12px" />,
-        component: <SignIn />,
-        noCollapse: true,
-    }
+    // {
+    //     type: 'collapse',
+    //     name: 'Sign In',
+    //     key: 'sign-in',
+    //     route: '/authentication/sign-in',
+    //     icon: <Document size="12px" />,
+    //     component: <SignIn />,
+    //     noCollapse: true,
+    // }
 ]
 
 export default routes;

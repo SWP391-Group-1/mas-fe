@@ -13,6 +13,7 @@ import SuiTypography from 'components/SuiTypography/index.js'
 import { Box } from '@mui/system'
 import { majorApi } from 'apis/majorApis.js'
 import { subjectApi } from 'apis/subjectApis.js'
+import { useSnackbar } from 'notistack'
 
 export default function EditSubjectModal({
     subject,
@@ -26,6 +27,14 @@ export default function EditSubjectModal({
     const isCreateMode = React.useMemo(() => !subject, [subject])
     const [majors, setMajors] = useState([])
     const [major, setMajor] = useState(null)
+    const { enqueueSnackbar } = useSnackbar()
+
+    const handleClickVariant = (title, varientType) => {
+        // variant could be success, error, warning, info, or default
+        enqueueSnackbar(title, {
+            variant: varientType,
+        })
+    }
 
     React.useEffect(() => {
         if (isOpen) {
@@ -50,7 +59,7 @@ export default function EditSubjectModal({
                 subjectApi
                     .createSubject(newSubject)
                     ?.then((res) => {
-                        alert('The subject has been created!')
+                        handleClickVariant("Create subject successfully!", "success")
                         onsubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -60,7 +69,7 @@ export default function EditSubjectModal({
                 subjectApi
                     .updateSubject(newSubject.id, newSubject)
                     ?.then((res) => {
-                        alert('The subject has been updated!')
+                        handleClickVariant("Update subject successfully!", "success")
                         onsubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -247,7 +256,7 @@ export default function EditSubjectModal({
                                 {option.code} {option.title}
                             </Box>
                         )}
-                    />
+                    /> 
                     <SuiBox>
                         <SuiTypography
                             component="label"

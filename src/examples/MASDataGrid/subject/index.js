@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { majorApi } from 'apis/majorApis'
 import SuiButton from 'components/SuiButton'
 import ConfirmDeleteDialog from 'components/ConfirmDeleteDialog'
+import { SnackbarProvider, useSnackbar } from 'notistack'
 
 const SubjectDataGrid = () => {
     const [subjects, setSubjects] = useState([])
@@ -23,6 +24,7 @@ const SubjectDataGrid = () => {
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
     const [isOpenConfirm, setIsOpenConfirm] = useState(false)
+    const { enqueueSnackbar, } = useSnackbar()
 
     const handleSubmitSubject = () => {
         setIsOpenEditModal(false)
@@ -37,17 +39,26 @@ const SubjectDataGrid = () => {
         setIsOpenEditModal(true)
     }
 
+    const handleClickVariant = (title, varientType) => {
+        // variant could be success, error, warning, info, or default
+        enqueueSnackbar(title, {
+            variant: varientType,
+        })
+    }
+
     const handleDelete = (id) => {
         subjectApi
             .deleteSubject(id)
             .then((res) => {
                 setIsOpenConfirm(false)
-                alert('The major has been deleted')
+                //alert('The major has been deleted')
+                handleClickVariant("Delete subject successfully!", "success")
                 fetchData(search, major.id)
             })
             .catch((err) => {
                 console.log(err)
                 alert(err)
+                handleClickVariant(err, "Error")
             })
     }
 
