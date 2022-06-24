@@ -199,7 +199,7 @@ export default function EditSubjectModal({
                             Description
                         </SuiTypography>
                     </SuiBox>
-                    <SuiInput
+                    {/* <SuiInput
                         id="descriptionTextField"
                         type="text"
                         value={newSubject?.description}
@@ -209,6 +209,20 @@ export default function EditSubjectModal({
                                 description: e?.target?.value ?? '',
                             })
                         }
+                    /> */}
+                    <SuiInput
+                        id="descriptionTextField"
+                        type="text"
+                        rows={5}
+                        multiline
+                        onChange={(e) =>
+                            patchSubject({
+                                description: e?.target?.value ?? '',
+                            })
+                        }
+                        name="description"
+                        //value={loan.description}
+                        value={newSubject?.description}
                     />
                     <SuiBox>
                         <SuiTypography

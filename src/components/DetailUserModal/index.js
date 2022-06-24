@@ -122,13 +122,22 @@ export default function ViewAccountDetail({
                                 Introduce
                             </SuiTypography>
                         </SuiBox>
-                        <SuiInput
+                        {/* <SuiInput
                             disabled
                             id="introduceTextField"
                             type="text"
                             value={newAccount?.introduce}
                             inputProps={{ maxLength: 1000 }}
-                        />
+                        /> */}
+                        <SuiInput
+                        disabled
+                        id="descriptionTextField"
+                        type="text"
+                        rows={5}
+                        multiline                  
+                        //value={loan.description}
+                        value={newAccount?.introduce}
+                    />
                         <SuiBox>
                             <SuiTypography
                                 component="label"

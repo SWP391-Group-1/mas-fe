@@ -46,7 +46,10 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                 majorApi
                     .createMajor(newMajor)
                     ?.then((res) => {
-                        handleClickVariant("Create major successfully!", "success")
+                        handleClickVariant(
+                            'Create major successfully!',
+                            'success'
+                        )
                         onSubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -57,7 +60,10 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                     .updateMajor(newMajor.id, newMajor)
                     ?.then((res) => {
                         //alert('The major has been updated!')
-                        handleClickVariant("Update major successfully!", "success")
+                        handleClickVariant(
+                            'Update major successfully!',
+                            'success'
+                        )
                         onSubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -164,7 +170,7 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                             Description
                         </SuiTypography>
                     </SuiBox>
-                    <SuiInput
+                    {/* <SuiInput
                         id="descriptionTextField"
                         type="text"
                         value={newMajor?.description}
@@ -173,6 +179,18 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                         onChange={(e) =>
                             patchMajor({ description: e?.target?.value ?? '' })
                         }
+                    /> */}
+                    <SuiInput
+                        id="descriptionTextField"
+                        type="text"
+                        rows={5}
+                        multiline
+                        onChange={(e) =>
+                            patchMajor({ description: e?.target?.value ?? '' })
+                        }
+                        name="description"
+                        //value={loan.description}
+                        value={newMajor?.description}
                     />
                     <SuiBox>
                         <SuiTypography
