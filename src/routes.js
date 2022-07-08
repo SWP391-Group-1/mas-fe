@@ -14,6 +14,8 @@ import Cube from 'examples/Icons/Cube'
 import Subject from 'layouts/subject'
 import Account from 'layouts/account'
 import SpaceShip from 'examples/Icons/SpaceShip'
+import RatingRequest from 'layouts/ratingrequest'
+import RatingRequestDetail from 'components/RatingRequestDetail'
 
 const routes = [
     {
@@ -52,6 +54,15 @@ const routes = [
         component: <Subject />,
         noCollapse: true,
     },
+    {
+        type: 'collapse',
+        name: 'RatingRequest',
+        key: 'ratingrequest',
+        route: '/ratingrequest',
+        icon: <Cube size="12px" />,
+        component: <RatingRequest />,
+        noCollapse: true,
+    },
     // {
     //     type: 'collapse',
     //     name: 'Register',
@@ -82,4 +93,15 @@ const routes = [
     },
 ]
 
+const extraRoutes = [
+    {
+        type: 'collapse',
+        name: 'RatingRequestDetail',
+        key: 'ratingrequestdetail',
+        route: '/ratingrequest/ratingrequestdetail',
+        component: <RatingRequestDetail />,  
+    },
+]
+
 export default routes
+export {extraRoutes}

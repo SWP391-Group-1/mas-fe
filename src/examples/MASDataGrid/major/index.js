@@ -62,9 +62,7 @@ const MajorDataGrid = () => {
                 fetchData(search)
             })
             .catch((err) => {
-                console.log(err)
-                //alert(err)
-                handleClickVariant(err, "error")
+                handleClickVariant(err.response.data?.error?.message, 'error')
             })
     }
 

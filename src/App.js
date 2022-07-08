@@ -27,6 +27,7 @@ import createCache from '@emotion/cache'
 
 // Soft UI Dashboard React routes
 import routes from 'routes'
+import { extraRoutes } from 'routes'
 
 // Soft UI Dashboard React contexts
 import {
@@ -37,6 +38,10 @@ import {
 
 // Images
 import brand from 'assets/images/logo-ct.png'
+
+var currentRoutes = [...routes]
+var extraRoute = [...extraRoutes]
+var mergeRoutes = currentRoutes.concat(extraRoute)
 
 export default function App() {
     const [controller, dispatch] = useSoftUIController()
@@ -168,7 +173,7 @@ export default function App() {
                 )}
                 {layout === 'vr' && <Configurator />}
                 <Routes>
-                    {getRoutes(routes)}
+                    {getRoutes(mergeRoutes)}
                     <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
             </ThemeProvider>
@@ -192,7 +197,7 @@ export default function App() {
             )}
             {layout === 'vr' && <Configurator />}
             <Routes>
-                {getRoutes(routes)}
+                {getRoutes(mergeRoutes)}
                 <Route
                     path="*"
                     element={<Navigate to="/authentication/sign-in" />}
