@@ -15,8 +15,14 @@ const getMentorSubjects = (id) => {
     return defaultInstance.get(`/mentor-subjects/${id}`)
 }
 
+const processMentorStatus =(id, data) => {
+    loadToken()
+    return defaultInstance.put(`/users/accept-request?userId=${id}`, data)
+}
+
 export const AccountApi = {
     createAdminAccount,
     getUserInformation,
     getMentorSubjects,
+    processMentorStatus
 }

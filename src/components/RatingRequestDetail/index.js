@@ -54,58 +54,48 @@ export default function RatingRequestDetail() {
     }
 
     const renderStatus = () => {
-        return (
-            <SuiTypography
-                component="label"
-                variant="h6"
-                fontWeight="bold"
-                color="info"
-            >
-                Not approved yet
-            </SuiTypography>
-        )
-        // if (requestDetail?.isApprove == null) {
-        //     return (
-        //         <SuiTypography
-        //             component="label"
-        //             variant="h6"
-        //             fontWeight="bold"
-        //             color="info"
-        //         >
-        //             Not approved yet
-        //         </SuiTypography>
-        //     )
-        // } else {
-        //     if (requestDetail?.isApprove == true) {
-        //         return (
-        //             <SuiTypography
-        //                 component="label"
-        //                 variant="h6"
-        //                 fontWeight="bold"
-        //                 color="success"
-        //             >
-        //                 Approved
-        //             </SuiTypography>
-        //         )
-        //     } else {
-        //         return (
-        //             <SuiTypography
-        //                 component="label"
-        //                 variant="h6"
-        //                 fontWeight="bold"
-        //                 color="error"
-        //             >
-        //                 Denied
-        //             </SuiTypography>
-        //         )
-        //     }
-        // }
+        if (requestDetail?.isApprove == null) {
+            return (
+                <SuiTypography
+                    component="label"
+                    variant="h6"
+                    fontWeight="bold"
+                    color="info"
+                >
+                    Not approved yet
+                </SuiTypography>
+            )
+        } else {
+            if (requestDetail?.isApprove == true) {
+                return (
+                    <SuiTypography
+                        component="label"
+                        variant="h6"
+                        fontWeight="bold"
+                        color="success"
+                    >
+                        Approved
+                    </SuiTypography>
+                )
+            } else {
+                return (
+                    <SuiTypography
+                        component="label"
+                        variant="h6"
+                        fontWeight="bold"
+                        color="error"
+                    >
+                        Denied
+                    </SuiTypography>
+                )
+            }
+        }
     }
 
     const fetchData = () => {
         ratingApi.getRatingById(requestId).then((res) => {
             setRequestDetail(res.data.content)
-            console.log(res.data.content.isApprove)
+            console.log(res.data.content.isApprove, 'abc')
             console.log(res.data.content.vote)
             UserApi.getAccountById(res.data.content.creatorId).then(
                 (resCreator) => {
@@ -123,7 +113,7 @@ export default function RatingRequestDetail() {
         <DashboardLayout>
             <DashboardNavbar />
             <SuiBox mt={7} mb={3}>
-                <SuiBox mb={1}>{renderStatus()}</SuiBox>
+                
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
                         <Card
@@ -142,6 +132,7 @@ export default function RatingRequestDetail() {
                                 px: 2,
                             }}
                         >
+                            <SuiBox>{renderStatus()}</SuiBox>
                             <SuiBox>
                                 <SuiTypography
                                     component="label"
@@ -242,7 +233,10 @@ export default function RatingRequestDetail() {
                     {requestDetail?.isApprove == null && (
                         <SuiBox
                             mt={2}
-                            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                            }}
                         >
                             <SuiButton
                                 sx={{ mr: '10px' }}

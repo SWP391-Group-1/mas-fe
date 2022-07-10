@@ -13,6 +13,9 @@ import CloseIcon from '@mui/icons-material/Close'
 import Switch from '@mui/material/Switch'
 import SuiButton from 'components/SuiButton/index.js'
 import { UserApi } from 'apis/userApis.js'
+import { bool } from 'prop-types'
+import { AccountApi } from 'apis/accountApis.js'
+import { useSnackbar } from 'notistack'
 
 export default function ViewAccountDetail({
     account,
@@ -25,13 +28,30 @@ export default function ViewAccountDetail({
     const [isOpenConfirm, setIsOpenConfirm] = useState(false)
     const [reason, setReason] = useState()
     const [reasonError, setReasonError] = useState()
-    const handleSetMentorStatus = () => setMentorStatus(!mentorStatus)
+    var updateStatus = false
+    const { enqueueSnackbar } = useSnackbar()
+
+    const handleClickVariant = (title, varientType) => {
+        // variant could be success, error, warning, info, or default
+        enqueueSnackbar(title, {
+            variant: varientType,
+        })
+    }
 
     React.useEffect(() => {
         if (isOpen) {
-            setNewAccount(account)
+            fetchData()
         }
     }, [account, isOpen])
+
+    const fetchData = () => {
+        setNewAccount(account)
+        if (account?.isMentor == true) {
+            setMentorStatus(true)
+        } else {
+            setMentorStatus(false)
+        }
+    }
 
     const handleUpdateClick = (e) => {
         e.preventDefault()
@@ -46,15 +66,37 @@ export default function ViewAccountDetail({
     }
 
     const handleSaveStatus = () => {
-        if(reason == null || reason == "") {
-            setReasonError("Reason/Note is required")
+        if (reason == null || reason == '') {
+            setReasonError('Reason/Note is required')
         } else {
-            UserApi.updateStatusById(newAccount, {isActive: !newAccount.isActive, note: reason})
+            UserApi.updateStatusById(newAccount, {
+                isActive: !newAccount.isActive,
+                note: reason,
+            })
             setIsOpenConfirm(false)
             setReason(null)
             setReasonError(null)
             onSubmit(true)
-        }   
+        }
+    }
+
+    const changeMentorStatus = () => {
+        AccountApi.processMentorStatus(account.id, {
+            isMentor: mentorStatus,
+        }).then((res) => {
+            fetchData()
+            if (mentorStatus == true) {
+                handleClickVariant('Accept mentor request successfully', 'success')
+            } else {
+                handleClickVariant(
+                    'You have turned the mentor status back to Student',
+                    'info'
+                )
+            }
+        }).catch((err) => {
+            console.log(err.response.data.error.message)
+            handleClickVariant(err.response.data.error.message, 'error')
+        })
     }
 
     return (
@@ -130,14 +172,14 @@ export default function ViewAccountDetail({
                             inputProps={{ maxLength: 1000 }}
                         /> */}
                         <SuiInput
-                        disabled
-                        id="descriptionTextField"
-                        type="text"
-                        rows={5}
-                        multiline                  
-                        //value={loan.description}
-                        value={newAccount?.introduce}
-                    />
+                            disabled
+                            id="descriptionTextField"
+                            type="text"
+                            rows={5}
+                            multiline
+                            //value={loan.description}
+                            value={newAccount?.introduce}
+                        />
                         <SuiBox>
                             <SuiTypography
                                 component="label"
@@ -167,9 +209,13 @@ export default function ViewAccountDetail({
                                 </SuiBox>
 
                                 <Switch
-                                    checked={newAccount?.isMentor}
+                                    disabled={false}
+                                    checked={Boolean(mentorStatus)}
                                     onChange={(e) => {
-                                        setMentorStatus(e.target?.value)
+                                        console.log(e.target?.checked)
+                                        setMentorStatus(
+                                            Boolean(e.target?.checked)
+                                        )
                                     }}
                                 />
                             </Grid>
@@ -210,61 +256,79 @@ export default function ViewAccountDetail({
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        {/* <Button onClick={(e) => handleUpdateClick}>Submit</Button> */}
+                        <SuiButton
+                            color="info"
+                            onClick={() => handleSaveStatus()}
+                        >
+                            Save
+                        </SuiButton>
                         {newAccount?.isActive ? (
-                            <SuiButton color="error" onClick={() => setIsOpenConfirm(true)}>
+                            <SuiButton
+                                color="error"
+                                onClick={() => setIsOpenConfirm(true)}
+                            >
                                 Ban
                             </SuiButton>
                         ) : (
-                            <SuiButton color="success" onClick={() => setIsOpenConfirm(true)}>
+                            <SuiButton
+                                color="success"
+                                onClick={() => setIsOpenConfirm(true)}
+                            >
                                 Unban
                             </SuiButton>
                         )}
-                        
                     </DialogActions>
                 </Box>
             </Dialog>
             <Dialog open={isOpenConfirm} maxWidth="l">
                 <SuiBox p={3}>
-                <SuiBox>
-                    <DialogTitle>
-                        {newAccount?.isActive
-                            ? 'Are your sure you want to permanently disable this user?'
-                            : 'Are your sure you want to permanently active this user?'}
-                    </DialogTitle>
-                </SuiBox>
-                <SuiBox>
-                    <SuiTypography
-                        component="label"
-                        variant="caption"
-                        fontWeight="bold"
-                    >
-                        Reason/Note
-                    </SuiTypography>
-                </SuiBox>
-                <SuiInput                   
-                    id="reasonTextField"
-                    type="text"
-                    value={reason}
-                    inputProps={{ maxLength: 1000 }}
-                    onChange={(e) => {
-                        setReason(e.target.value)
-                    }}
-                />
-                <SuiBox>
-                    <SuiTypography
-                        component="label"
-                        variant="caption"
-                        fontWeight="bold"
-                        color="error"
-                    >
-                        {reasonError}
-                    </SuiTypography>
-                </SuiBox>
-                <SuiBox mt={2} display="flex" justifyContent="flex-end">
-                    <SuiButton sx={{marginRight:5}} color="info" onClick={() => handleSaveStatus()}>Save</SuiButton>
-                    <SuiButton onClick={() => setIsOpenConfirm(false)}>Cancel</SuiButton>
-                </SuiBox>
+                    <SuiBox>
+                        <DialogTitle>
+                            {newAccount?.isActive
+                                ? 'Are your sure you want to permanently disable this user?'
+                                : 'Are your sure you want to permanently active this user?'}
+                        </DialogTitle>
+                    </SuiBox>
+                    <SuiBox>
+                        <SuiTypography
+                            component="label"
+                            variant="caption"
+                            fontWeight="bold"
+                        >
+                            Reason/Note
+                        </SuiTypography>
+                    </SuiBox>
+                    <SuiInput
+                        id="reasonTextField"
+                        type="text"
+                        value={reason}
+                        inputProps={{ maxLength: 1000 }}
+                        onChange={(e) => {
+                            setReason(e.target.value)
+                        }}
+                    />
+                    <SuiBox>
+                        <SuiTypography
+                            component="label"
+                            variant="caption"
+                            fontWeight="bold"
+                            color="error"
+                        >
+                            {reasonError}
+                        </SuiTypography>
+                    </SuiBox>
+                    <SuiBox mt={2} display="flex" justifyContent="flex-end">
+                        <SuiButton
+                            sx={{ marginRight: 5 }}
+                            color="info"
+                            onClick={() => changeMentorStatus()}
+                        >
+                            Save
+                        </SuiButton>
+                        <SuiButton onClick={() => setIsOpenConfirm(false)}>
+                            Cancel
+                        </SuiButton>
+                    </SuiBox>
                 </SuiBox>
             </Dialog>
         </>
