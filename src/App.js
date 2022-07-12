@@ -162,7 +162,7 @@ export default function App() {
                         <Sidenav
                             color={sidenavColor}
                             brand={brand}
-                            brandName="FPT MAS"
+                            brandName="FPT MAS ADMIN"
                             routes={routes}
                             onMouseEnter={handleOnMouseEnter}
                             onMouseLeave={handleOnMouseLeave}
