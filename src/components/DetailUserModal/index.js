@@ -81,10 +81,15 @@ export default function ViewAccountDetail({
     }
 
     const changeMentorStatus = () => {
+        console.log(mentorStatus)
         AccountApi.processMentorStatus(account.id, {
             isMentor: mentorStatus,
         }).then((res) => {
-            fetchData()
+            setIsOpenConfirm(false)
+            setReason(null)
+            setReasonError(null)
+            onSubmit(true)
+            //fetchData()
             if (mentorStatus == true) {
                 handleClickVariant('Accept mentor request successfully', 'success')
             } else {
@@ -94,7 +99,7 @@ export default function ViewAccountDetail({
                 )
             }
         }).catch((err) => {
-            console.log(err.response.data.error.message)
+            //console.log(err.response.data.error.message)
             handleClickVariant(err.response.data.error.message, 'error')
         })
     }
@@ -212,7 +217,7 @@ export default function ViewAccountDetail({
                                     disabled={false}
                                     checked={Boolean(mentorStatus)}
                                     onChange={(e) => {
-                                        console.log(e.target?.checked)
+                                        
                                         setMentorStatus(
                                             Boolean(e.target?.checked)
                                         )
@@ -258,7 +263,7 @@ export default function ViewAccountDetail({
                     <DialogActions>
                         <SuiButton
                             color="info"
-                            onClick={() => handleSaveStatus()}
+                            onClick={() => changeMentorStatus()}
                         >
                             Save
                         </SuiButton>
@@ -321,7 +326,7 @@ export default function ViewAccountDetail({
                         <SuiButton
                             sx={{ marginRight: 5 }}
                             color="info"
-                            onClick={() => changeMentorStatus()}
+                            onClick={() => handleSaveStatus()}
                         >
                             Save
                         </SuiButton>
