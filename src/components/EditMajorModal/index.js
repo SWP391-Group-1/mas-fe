@@ -11,6 +11,7 @@ import SuiTypography from 'components/SuiTypography/index.js'
 import { Box } from '@mui/system'
 import { majorApi } from 'apis/majorApis.js'
 import { useSnackbar } from 'notistack'
+import SuiButton from 'components/SuiButton/index.js'
 
 export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
     const [newMajor, setNewMajor, patchMajor] = usePatch()
@@ -221,11 +222,11 @@ export default function EditMajorModal({ major, isOpen, onSubmit, onCancel }) {
                 </DialogContent>
                 <DialogActions>
                     {isCreateMode ? (
-                        <Button onClick={handleUpdateClick}>Create</Button>
+                        <SuiButton color="success" onClick={handleUpdateClick}>Create</SuiButton>
                     ) : (
-                        <Button onClick={handleUpdateClick}>Update</Button>
+                        <SuiButton color="success" onClick={handleUpdateClick}>Update</SuiButton>
                     )}
-                    <Button onClick={handleCancelClick}>Cancel</Button>
+                    <SuiButton color="info" onClick={handleCancelClick}>Cancel</SuiButton>
                 </DialogActions>
             </Box>
         </Dialog>

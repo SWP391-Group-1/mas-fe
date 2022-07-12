@@ -11,7 +11,7 @@ ReactDOM.render(
     <BrowserRouter>
         <SoftUIControllerProvider>
             <SnackbarProvider maxSnack={2}>
-                <App />
+                <App/>
             </SnackbarProvider>
         </SoftUIControllerProvider>
     </BrowserRouter>,

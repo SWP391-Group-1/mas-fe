@@ -81,22 +81,6 @@ export default function App() {
     const handleConfiguratorOpen = () =>
         setOpenConfigurator(dispatch, !openConfigurator)
 
-    // Setting the dir attribute for the body element
-    // const majorObj = { title: 'TEST', description: 'TestInCode' }
-
-    // const fetchData = () => {
-    //     majorApi.getAllMajor().then((res) => {
-    //         console.log(res.data)
-    //     })
-    //     majorApi
-    //         .updateMajor('71e3a3cd-83c3-418a-bccc-7216059dfc4b', majorObj)
-    //         .then((res) => {
-    //             console.log(res)
-    //         })
-    //     UserApi.getAllUser().then((res) => {
-    //         console.log(res.data)
-    //     })
-    // }
 
     useEffect(() => {
         document.body.setAttribute('dir', direction)

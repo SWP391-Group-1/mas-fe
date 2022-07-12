@@ -17,13 +17,13 @@ export default function ConfirmDeleteDialog({
                 </SuiBox>
                 <SuiBox mt={2} display="flex" justifyContent="flex-end">
                     <SuiButton
-                        sx={{ marginRight: 5 }}
-                        color="info"
+                        sx={{ marginRight: 2 }}
+                        color="success"
                         onClick={() => onDelete?.()}
                     >
                         Delete
                     </SuiButton>
-                    <SuiButton onClick={() => onCancel?.()}>
+                    <SuiButton color="info" onClick={() => onCancel?.()}>
                         Cancel
                     </SuiButton>
                 </SuiBox>
