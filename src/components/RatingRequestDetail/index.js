@@ -15,6 +15,7 @@ export default function RatingRequestDetail() {
     const location = useLocation()
     const requestId = location.state?.requestId || null
     const [requestDetail, setRequestDetail] = useState()
+    const [vote, setVote] = useState()
     const [creator, setCreator] = useState()
     const [mentor, setMentor] = useState()
 
@@ -97,6 +98,7 @@ export default function RatingRequestDetail() {
             setRequestDetail(res.data.content)
             console.log(res.data.content.isApprove, 'abc')
             console.log(res.data.content.vote)
+            setVote(res.data.content.vote)
             UserApi.getAccountById(res.data.content.creatorId).then(
                 (resCreator) => {
                     setCreator(resCreator.data.content)
@@ -113,7 +115,6 @@ export default function RatingRequestDetail() {
         <DashboardLayout>
             <DashboardNavbar />
             <SuiBox mt={7} mb={3}>
-                
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
                         <Card
@@ -214,10 +215,9 @@ export default function RatingRequestDetail() {
                         <SuiBox>
                             <Rating
                                 name="read-only"
-                                value={requestDetail?.vote}
-                                size="small"
-                                readOnly
-                            />
+                                value={vote * 1}
+                                size="medium"
+                                readOnly/>
                         </SuiBox>
 
                         <SuiInput

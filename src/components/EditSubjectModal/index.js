@@ -14,6 +14,7 @@ import { Box } from '@mui/system'
 import { majorApi } from 'apis/majorApis.js'
 import { subjectApi } from 'apis/subjectApis.js'
 import { useSnackbar } from 'notistack'
+import SuiButton from 'components/SuiButton/index.js'
 
 export default function EditSubjectModal({
     subject,
@@ -60,7 +61,7 @@ export default function EditSubjectModal({
                     .createSubject(newSubject)
                     ?.then((res) => {
                         handleClickVariant("Create subject successfully!", "success")
-                        onsubmit?.() // TODO
+                        onSubmit?.() // TODO
                     })
                     .catch((error) => {
                         setDuplicateError(error)
@@ -70,7 +71,7 @@ export default function EditSubjectModal({
                     .updateSubject(newSubject.id, newSubject)
                     ?.then((res) => {
                         handleClickVariant("Update subject successfully!", "success")
-                        onsubmit?.() // TODO
+                        onSubmit?.() // TODO
                     })
                     .catch((error) => {
                         setDuplicateError(error)
@@ -78,10 +79,6 @@ export default function EditSubjectModal({
             }
         }
     }
-
-    // const handleCancelClick = () => {
-    //     onCancel?.()
-    // }
     const handleCancelClick = () => {
         setIsError(false)
         setDuplicateError(null)
@@ -198,8 +195,12 @@ export default function EditSubjectModal({
                         >
                             Description
                         </SuiTypography>
+<<<<<<< HEAD
                     </SuiBox>
                     
+=======
+                    </SuiBox>                   
+>>>>>>> 8efd21121785739b34fd0cd5a06f53f9e5cc05c7
                     <SuiInput
                         id="descriptionTextField"
                         type="text"
@@ -276,11 +277,11 @@ export default function EditSubjectModal({
                 </DialogContent>
                 <DialogActions>
                     {isCreateMode ? (
-                        <Button onClick={handleUpdateClick}>Create</Button>
+                        <SuiButton color="success" onClick={handleUpdateClick}>Create</SuiButton>
                     ) : (
-                        <Button onClick={handleUpdateClick}>Update</Button>
+                        <SuiButton color="success" onClick={handleUpdateClick}>Update</SuiButton>
                     )}
-                    <Button onClick={handleCancelClick}>Cancel</Button>
+                    <SuiButton color="info" onClick={handleCancelClick}>Cancel</SuiButton>
                 </DialogActions>
             </Box>
         </Dialog>

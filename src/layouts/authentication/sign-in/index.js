@@ -45,11 +45,11 @@ function SignIn() {
             })
             .catch((err) => {
                 setErrorMessage(err.response.data.errors[0])
-                setErrorEmail(err.response.data.errors['Email'][0])
-                setErrorPassword(err.response.data.errors['Password'][0])
-                console.error('Sign in failed.', err.response.data.errors[0])
+                if (err.response.data.errors['Email'] != null)
+                    setErrorEmail(err.response.data.errors['Email'][0])
+                if (err.response.data.errors['Password'] != null)
+                    setErrorPassword(err.response.data.errors['Password'][0])
             })
-        //   console.log("sign in meow", { username, password });
     }
 
     return (
