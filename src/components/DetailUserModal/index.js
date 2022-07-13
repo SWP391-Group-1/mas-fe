@@ -191,7 +191,7 @@ export default function ViewAccountDetail({
                                 variant="caption"
                                 fontWeight="bold"
                             >
-                                Rate
+                                Rate 
                             </SuiTypography>
                         </SuiBox>
                         <SuiInput

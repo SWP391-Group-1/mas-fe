@@ -199,17 +199,7 @@ export default function EditSubjectModal({
                             Description
                         </SuiTypography>
                     </SuiBox>
-                    {/* <SuiInput
-                        id="descriptionTextField"
-                        type="text"
-                        value={newSubject?.description}
-                        inputProps={{ maxLength: 100 }}
-                        onChange={(e) =>
-                            patchSubject({
-                                description: e?.target?.value ?? '',
-                            })
-                        }
-                    /> */}
+                    
                     <SuiInput
                         id="descriptionTextField"
                         type="text"
