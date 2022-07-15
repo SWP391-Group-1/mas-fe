@@ -60,7 +60,10 @@ export default function EditSubjectModal({
                 subjectApi
                     .createSubject(newSubject)
                     ?.then((res) => {
-                        handleClickVariant("Create subject successfully!", "success")
+                        handleClickVariant(
+                            'Create subject successfully!',
+                            'success'
+                        )
                         onSubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -70,7 +73,10 @@ export default function EditSubjectModal({
                 subjectApi
                     .updateSubject(newSubject.id, newSubject)
                     ?.then((res) => {
-                        handleClickVariant("Update subject successfully!", "success")
+                        handleClickVariant(
+                            'Update subject successfully!',
+                            'success'
+                        )
                         onSubmit?.() // TODO
                     })
                     .catch((error) => {
@@ -195,12 +201,7 @@ export default function EditSubjectModal({
                         >
                             Description
                         </SuiTypography>
-<<<<<<< HEAD
                     </SuiBox>
-                    
-=======
-                    </SuiBox>                   
->>>>>>> 8efd21121785739b34fd0cd5a06f53f9e5cc05c7
                     <SuiInput
                         id="descriptionTextField"
                         type="text"
@@ -261,7 +262,7 @@ export default function EditSubjectModal({
                                 {option.code} {option.title}
                             </Box>
                         )}
-                    /> 
+                    />
                     <SuiBox>
                         <SuiTypography
                             component="label"
@@ -277,11 +278,17 @@ export default function EditSubjectModal({
                 </DialogContent>
                 <DialogActions>
                     {isCreateMode ? (
-                        <SuiButton color="success" onClick={handleUpdateClick}>Create</SuiButton>
+                        <SuiButton color="success" onClick={handleUpdateClick}>
+                            Create
+                        </SuiButton>
                     ) : (
-                        <SuiButton color="success" onClick={handleUpdateClick}>Update</SuiButton>
+                        <SuiButton color="success" onClick={handleUpdateClick}>
+                            Update
+                        </SuiButton>
                     )}
-                    <SuiButton color="info" onClick={handleCancelClick}>Cancel</SuiButton>
+                    <SuiButton color="info" onClick={handleCancelClick}>
+                        Cancel
+                    </SuiButton>
                 </DialogActions>
             </Box>
         </Dialog>
